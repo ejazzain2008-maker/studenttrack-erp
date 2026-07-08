@@ -1,0 +1,40 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}System Alerts - StudentTrack ERP{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="glass-card p-5">
+            <h3 class="fw-bold mb-4 accent-text-gradient"><i class="fa-solid fa-bell me-2"></i>Recent Notifications</h3>
+            
+            <div class="list-group list-group-flush bg-transparent">
+                {% for notif in notifications %}
+                <div class="list-group-item bg-transparent text-white border-secondary px-0 py-4 d-flex justify-content-between align-items-start">
+                    <div class="d-flex gap-3">
+                        <div class="fs-4 mt-1 {% if notif.is_read %}text-muted{% else %}text-teal{% endif %}">
+                            <i class="fa-solid {% if notif.is_read %}fa-envelope-open{% else %}fa-envelope-circle-check{% endif %}"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1 {% if notif.is_read %}text-muted{% endif %}">{{ notif.title }}</h5>
+                            <p class="mb-1 text-muted">{{ notif.message }}</p>
+                            <small class="text-muted" style="font-size: 0.8rem;"><i class="fa-solid fa-clock me-1"></i>{{ notif.created_at|date:"d M Y, H:i" }}</small>
+                        </div>
+                    </div>
+                    {% if not notif.is_read %}
+                        <a href="{% url 'notification_read' notif.id %}" class="btn btn-teal btn-sm px-3">Mark Read</a>
+                    {% else %}
+                        <span class="badge badge-glass">Read</span>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <div class="text-center py-5 text-muted">
+                    <i class="fa-solid fa-bell-slash mb-3" style="font-size: 3rem;"></i>
+                    <p class="mb-0">No notifications in your inbox.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}System History - StudentTrack ERP{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="glass-card p-5">
+            <h3 class="fw-bold mb-4 accent-text-gradient"><i class="fa-solid fa-clock-rotate-left me-2"></i>Academic History Timeline</h3>
+            <p class="text-muted mb-4">Historical review of system updates, enrollment validations, and document status checks.</p>
+            
+            <div class="position-relative ps-4 border-start border-secondary py-2" style="margin-left: 10px;">
+                <!-- Historical record updates -->
+                {% for record in records %}
+                <div class="mb-5 position-relative">
+                    <!-- Custom timeline dot -->
+                    <div class="position-absolute bg-teal rounded-circle" style="width: 14px; height: 14px; left: -32px; top: 6px; border: 3px solid var(--bg-dark-blue);"></div>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="badge badge-accent">{{ record.semester }} Updated</span>
+                        <small class="text-muted">{{ record.updated_at|date:"d M Y, H:i" }}</small>
+                    </div>
+                    <h5 class="fw-bold text-white mb-2">Academic Standing Saved</h5>
+                    <p class="text-muted mb-0">Marks: <strong class="text-white">{{ record.marks_obtained }}%</strong> | Attendance: <strong class="text-white">{{ record.attendance_percentage }}%</strong> | Status: <span class="badge badge-teal">{{ record.academic_status }}</span></p>
+                </div>
+                {% endfor %}
+
+                <!-- Document Upload logs -->
+                {% for log in logs %}
+                <div class="mb-5 position-relative">
+                    <div class="position-absolute bg-secondary rounded-circle" style="width: 14px; height: 14px; left: -32px; top: 6px; border: 3px solid var(--bg-dark-blue);"></div>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="badge badge-glass">Action Audited</span>
+                        <small class="text-muted">{{ log.timestamp|date:"d M Y, H:i" }}</small>
+                    </div>
+                    <h5 class="fw-bold text-white mb-2">{{ log.action }}</h5>
+                    <p class="text-muted mb-0">IP Location: <code class="text-teal-hover">{{ log.ip_address|default:"127.0.0.1" }}</code></p>
+                </div>
+                {% endfor %}
+
+                {% if not records and not logs %}
+                <div class="text-center py-4 text-muted">
+                    <i class="fa-solid fa-hourglass-empty mb-3" style="font-size: 3rem;"></i>
+                    <p class="mb-0">No history timelines registered yet.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

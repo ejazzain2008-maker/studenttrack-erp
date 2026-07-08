@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StudentTrack ERP Transcript</title>
+    <style>
+        @page {
+            size: a4 portrait;
+            margin: 2cm;
+        }
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #2d3748;
+            line-height: 1.5;
+            font-size: 10pt;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #0d9488;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #0d9488;
+            margin: 0;
+            font-size: 24pt;
+            font-weight: bold;
+        }
+        .header p {
+            margin: 5px 0 0 0;
+            color: #718096;
+            font-size: 11pt;
+        }
+        .report-title {
+            text-align: center;
+            font-size: 14pt;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            color: #2d3748;
+        }
+        .info-table {
+            width: 100%;
+            margin-bottom: 30px;
+            border-collapse: collapse;
+        }
+        .info-table td {
+            padding: 6px;
+            vertical-align: top;
+        }
+        .info-table td.label {
+            font-weight: bold;
+            color: #4a5568;
+            width: 25%;
+        }
+        .info-table td.value {
+            color: #2d3748;
+            width: 25%;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 35px;
+        }
+        .data-table th {
+            background-color: #0d9488;
+            color: #ffffff;
+            font-weight: bold;
+            text-align: left;
+            padding: 10px;
+            font-size: 10pt;
+            border: 1px solid #0d9488;
+        }
+        .data-table td {
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 9.5pt;
+        }
+        .data-table tr:nth-child(even) td {
+            background-color: #f7fafc;
+        }
+        .footer {
+            margin-top: 50px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+            font-size: 8pt;
+            color: #a0aec0;
+            text-align: center;
+        }
+        .signature-area {
+            margin-top: 60px;
+            width: 100%;
+        }
+        .signature-box {
+            float: right;
+            width: 200px;
+            text-align: center;
+            border-top: 1px solid #718096;
+            padding-top: 5px;
+            font-size: 10pt;
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>StudentTrack ERP</h1>
+        <p>Diploma Student Management & Analytics System</p>
+    </div>
+
+    <div class="report-title">
+        {{ title }}
+    </div>
+
+    <table class="info-table">
+        <tr>
+            <td class="label">Date Generated:</td>
+            <td class="value">2026-07-08</td>
+            <td class="label">System Status:</td>
+            <td class="value">Official Record</td>
+        </tr>
+        {% if not is_admin %}
+        <tr>
+            <td class="label">Student Name:</td>
+            <td class="value">{{ user.get_full_name|default:user.username }}</td>
+            <td class="label">Roll Number:</td>
+            <td class="value">{{ user.profile.roll_number }}</td>
+        </tr>
+        <tr>
+            <td class="label">Course:</td>
+            <td class="value" colspan="3">{{ user.profile.course }}</td>
+        </tr>
+        {% endif %}
+    </table>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                {% if is_admin %}
+                <th>Student Name</th>
+                <th>Roll Number</th>
+                <th>Course</th>
+                {% endif %}
+                <th>Semester</th>
+                <th>Marks Obtained (%)</th>
+                <th>Attendance (%)</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                {% if is_admin %}
+                <td>{{ record.student.get_full_name|default:record.student.username }}</td>
+                <td>{{ record.student.profile.roll_number }}</td>
+                <td>{{ record.student.profile.course }}</td>
+                {% endif %}
+                <td>{{ record.semester }}</td>
+                <td>{{ record.marks_obtained }}%</td>
+                <td>{{ record.attendance_percentage }}%</td>
+                <td>{{ record.academic_status }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="{% if is_admin %}7{% else %}4{% endif %}" style="text-align: center; color: #a0aec0;">No academic records found in the system.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="signature-area">
+        <div class="signature-box">
+            Authorized Signatory<br>
+            <small>StudentTrack Registrar</small>
+        </div>
+    </div>
+
+    <div class="footer">
+        This document is dynamically generated by StudentTrack Student Management ERP using SQLite Database.
+    </div>
+
+</body>
+</html>

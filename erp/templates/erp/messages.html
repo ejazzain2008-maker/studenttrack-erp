@@ -1,0 +1,65 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}Messages Inbox - StudentTrack ERP{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="glass-card p-5">
+            <h3 class="fw-bold mb-4 accent-text-gradient"><i class="fa-solid fa-inbox me-2"></i>System Inbox</h3>
+            
+            {% if user.profile.role == 'admin' %}
+                <p class="text-muted mb-4">You are viewing contact/support queries submitted by users and guest visitors.</p>
+                <div class="list-group list-group-flush bg-transparent">
+                    {% for msg in messages %}
+                    <div class="list-group-item bg-transparent text-white border-secondary px-0 py-4">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <span class="badge {% if msg.is_read %}badge-glass{% else %}badge-teal{% endif %} me-2">
+                                    {% if msg.is_read %}Read{% else %}New Query{% endif %}
+                                </span>
+                                <strong class="fs-5">{{ msg.subject }}</strong>
+                            </div>
+                            <small class="text-muted">{{ msg.created_at|date:"d M Y, H:i" }}</small>
+                        </div>
+                        
+                        <div class="p-3 rounded bg-dark border border-secondary mb-3">
+                            <p class="mb-0" style="white-space: pre-wrap;">{{ msg.message }}</p>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">From: <strong class="text-white">{{ msg.name }}</strong> ({{ msg.email }})</small>
+                            {% if not msg.is_read %}
+                                <a href="{% url 'message_read' msg.id %}" class="btn btn-accent btn-sm"><i class="fa-solid fa-check me-1"></i>Mark Read</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="text-center py-5 text-muted">
+                        <i class="fa-solid fa-envelope-open-text mb-3" style="font-size: 3rem;"></i>
+                        <p class="mb-0">No queries received in the database yet.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">Students can send direct messages to the Registrar's Office by using the <a href="{% url 'contact' %}" class="text-teal text-decoration-none fw-semibold">Contact Page</a> or submit feedback using the <a href="{% url 'feedback' %}" class="text-teal text-decoration-none fw-semibold">Feedback Portal</a>.</p>
+                
+                <h5 class="fw-bold mt-4 mb-3">Your Sent Messages Summary</h5>
+                <div class="list-group list-group-flush bg-transparent">
+                    {% for msg in messages %}
+                    <div class="list-group-item bg-transparent text-white border-secondary px-0 py-3">
+                        <div class="d-flex justify-content-between">
+                            <strong>{{ msg.subject }}</strong>
+                            <small class="text-muted">{{ msg.created_at|date:"d M Y" }}</small>
+                        </div>
+                        <p class="text-muted text-truncate mb-0" style="max-width: 500px;">{{ msg.message }}</p>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted py-3">You haven't sent any queries yet.</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

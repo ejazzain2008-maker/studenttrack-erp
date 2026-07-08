@@ -1,0 +1,49 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}About StudentTrack ERP{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto py-4">
+        <div class="glass-card p-5">
+            <h2 class="fw-bold mb-4 accent-text-gradient"><i class="fa-solid fa-circle-info me-2"></i>About StudentTrack</h2>
+            <p class="lead text-white">StudentTrack is a premium Student Management ERP built specifically for Diploma academic institutions to manage courses, marks transcripts, file storage, user profiles, and active analytics graphs.</p>
+            
+            <h4 class="mt-4 fw-bold">Core Features</h4>
+            <ul class="text-muted list-unstyled">
+                <li><i class="fa-solid fa-check-circle text-teal me-2 mb-2"></i><strong>Secure Role Protection</strong> - Admins and users are completely separated with protected dashboard access.</li>
+                <li><i class="fa-solid fa-check-circle text-teal me-2 mb-2"></i><strong>SQLite Database Store</strong> - Securely tracks login sessions, upload paths, messages, and academic marks.</li>
+                <li><i class="fa-solid fa-check-circle text-teal me-2 mb-2"></i><strong>Student Activity Audit</strong> - Full activity logs tracking every log-in, file modification, and profile edits.</li>
+                <li><i class="fa-solid fa-check-circle text-teal me-2 mb-2"></i><strong>Transcripts & Downloads</strong> - Compiles student records into dynamically generated PDF reports.</li>
+                <li><i class="fa-solid fa-check-circle text-teal me-2 mb-2"></i><strong>Modern UI</strong> - Dark Theme, Bootstrap grid layout, glassmorphic styles, and interactive card hovers.</li>
+            </ul>
+
+            <h4 class="mt-4 fw-bold">Technology Stack</h4>
+            <table class="table table-dark table-borderless bg-transparent">
+                <tbody>
+                    <tr>
+                        <td class="text-teal font-weight-bold" style="width: 30%;">Backend Framework</td>
+                        <td class="text-muted">Python 3 & Django 6.0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-teal font-weight-bold">Database Store</td>
+                        <td class="text-muted">SQLite (relational, file-based)</td>
+                    </tr>
+                    <tr>
+                        <td class="text-teal font-weight-bold">Frontend Toolkit</td>
+                        <td class="text-muted">HTML5, Bootstrap 5, Custom theme.css</td>
+                    </tr>
+                    <tr>
+                        <td class="text-teal font-weight-bold">Visual Analytics</td>
+                        <td class="text-muted">Chart.js (responsive canvas metrics)</td>
+                    </tr>
+                    <tr>
+                        <td class="text-teal font-weight-bold">PDF Engine</td>
+                        <td class="text-muted">xhtml2pdf & reportlab</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

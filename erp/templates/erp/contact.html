@@ -1,0 +1,67 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}Contact Support - StudentTrack{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="glass-card p-5 h-100">
+            <h2 class="fw-bold mb-4 accent-text-gradient"><i class="fa-solid fa-headset me-2"></i>Get In Touch</h2>
+            <p class="text-muted">If you are facing credentials issues, cannot sign up, or need access updates, submit this query form. Administrators review support requests within 24 hours.</p>
+            
+            <div class="d-flex align-items-center gap-3 mt-4">
+                <div class="fs-3 text-teal"><i class="fa-solid fa-location-dot"></i></div>
+                <div>
+                    <h6 class="mb-0 text-white">StudentTrack HQ</h6>
+                    <small class="text-muted">Engineering Wing, Diploma Campus</small>
+                </div>
+            </div>
+            
+            <div class="d-flex align-items-center gap-3 mt-4">
+                <div class="fs-3 text-teal"><i class="fa-solid fa-phone"></i></div>
+                <div>
+                    <h6 class="mb-0 text-white">Support Line</h6>
+                    <small class="text-muted">+91 (555) 123-4567</small>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3 mt-4">
+                <div class="fs-3 text-teal"><i class="fa-solid fa-envelope"></i></div>
+                <div>
+                    <h6 class="mb-0 text-white">Administration Email</h6>
+                    <small class="text-muted">admin@studenttrack.erp</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6">
+        <div class="glass-card p-5">
+            <h3 class="fw-bold mb-4">Submit Query</h3>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-glass-label">Name</label>
+                    <input type="text" name="name" class="form-control form-glass-control" placeholder="Enter your full name" required value="{{ form.name.value|default:'' }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-glass-label">Email</label>
+                    <input type="email" name="email" class="form-control form-glass-control" placeholder="Enter email address" required value="{{ form.email.value|default:'' }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-glass-label">Subject</label>
+                    <input type="text" name="subject" class="form-control form-glass-control" placeholder="Subject of query" required value="{{ form.subject.value|default:'' }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-glass-label">Message Details</label>
+                    <textarea name="message" class="form-control form-glass-control" rows="4" placeholder="Type message..." required>{{ form.message.value|default:'' }}</textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-teal w-100 py-2 fs-5 mt-2">
+                    <i class="fa-solid fa-paper-plane me-2"></i>Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

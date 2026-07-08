@@ -1,0 +1,348 @@
+/* CSS Variables matching the theme preferences */
+:root {
+    --bg-dark-blue: #0a192f;
+    --bg-card-glass: rgba(16, 28, 48, 0.55);
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --teal-green: #0d9488;
+    --teal-green-hover: #14b8a6;
+    --accent-green: #10b981;
+    --light-gray: #f1f5f9;
+    --pure-white: #ffffff;
+    --text-muted: #e2e8f0; /* Bright ice-blue/cyan text instead of grey */
+    --sidebar-width: 260px;
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Global text-muted override for contrast */
+.text-muted {
+    color: #e2e8f0 !important; /* Force light cyan text color */
+}
+
+/* Base resets & typography */
+body {
+    background-color: var(--bg-dark-blue);
+    background-image: radial-gradient(circle at 10% 20%, rgba(13, 148, 136, 0.1) 0%, transparent 40%),
+                      radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 40%);
+    background-attachment: fixed;
+    color: var(--pure-white);
+    font-family: 'Inter', 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Glassmorphism utility card */
+.glass-card {
+    background: var(--bg-card-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: var(--transition-smooth);
+}
+
+.glass-card-hover:hover {
+    transform: translateY(-5px) scale(1.01);
+    border-color: rgba(13, 148, 136, 0.4);
+    box-shadow: 0 12px 40px 0 rgba(13, 148, 136, 0.15);
+}
+
+/* Scrollbar customizations */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-dark-blue);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(13, 148, 136, 0.3);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--teal-green);
+}
+
+/* Main Dashboard Grid with sidebar navigation */
+#wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: var(--sidebar-width);
+    max-width: var(--sidebar-width);
+    background: rgba(10, 25, 47, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid var(--border-glass);
+    transition: var(--transition-smooth);
+    min-height: 100vh;
+    z-index: 1000;
+}
+
+#sidebar.active {
+    margin-left: calc(-1 * var(--sidebar-width));
+}
+
+#content {
+    width: 100%;
+    padding: 2.5rem;
+    min-height: 100vh;
+    transition: var(--transition-smooth);
+}
+
+/* Navigation details */
+.sidebar-header {
+    padding: 2rem 1.5rem;
+    border-bottom: 1px solid var(--border-glass);
+}
+
+.sidebar-brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--pure-white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-brand span {
+    color: var(--teal-green);
+}
+
+.components-nav {
+    padding: 1.5rem 0;
+    list-style: none;
+    margin: 0;
+}
+
+.components-nav li a {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--light-gray);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+    border-left: 3px solid transparent;
+}
+
+.components-nav li a:hover, .components-nav li.active a {
+    color: var(--pure-white);
+    background: rgba(13, 148, 136, 0.15);
+    border-left-color: var(--teal-green);
+}
+
+.components-nav li a i {
+    width: 20px;
+    font-size: 1.1rem;
+    color: var(--teal-green);
+}
+
+.components-nav li.active a i {
+    color: var(--accent-green);
+}
+
+/* Beautiful Custom Buttons */
+.btn-teal {
+    background-color: var(--teal-green);
+    color: var(--pure-white);
+    border: 1px solid transparent;
+    transition: var(--transition-smooth);
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+}
+
+.btn-teal:hover {
+    background-color: var(--teal-green-hover);
+    color: var(--pure-white);
+    box-shadow: 0 0 15px rgba(20, 184, 166, 0.4);
+}
+
+.btn-accent {
+    background-color: var(--accent-green);
+    color: var(--bg-dark-blue);
+    border: 1px solid transparent;
+    transition: var(--transition-smooth);
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+}
+
+.btn-accent:hover {
+    background-color: #34d399;
+    color: var(--bg-dark-blue);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    color: var(--pure-white);
+    border-radius: 8px;
+    transition: var(--transition-smooth);
+}
+
+.btn-glass:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--pure-white);
+}
+
+/* Badges & Accents */
+.badge-teal {
+    background-color: rgba(13, 148, 136, 0.25);
+    color: var(--teal-green-hover);
+    border: 1px solid rgba(13, 148, 136, 0.4);
+}
+
+.badge-accent {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: var(--accent-green);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.badge-danger-glass {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+/* Table styling with glassmorphic cards */
+.table-responsive-glass {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.table-glass {
+    margin-bottom: 0;
+    color: #f1f5f9;
+    background: transparent;
+}
+
+.table-glass th {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: var(--pure-white);
+    font-weight: 600;
+    border-bottom: 2px solid var(--border-glass) !important;
+    padding: 1rem 1.2rem;
+}
+
+.table-glass td {
+    background: transparent !important;
+    border-bottom: 1px solid var(--border-glass) !important;
+    padding: 1rem 1.2rem;
+    vertical-align: middle;
+}
+
+.table-glass tbody tr {
+    transition: var(--transition-smooth);
+}
+
+.table-glass tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* Glassmorphism Input Forms */
+.form-glass-control {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    color: var(--pure-white) !important;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: var(--transition-smooth);
+}
+
+.form-glass-control:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--teal-green);
+    box-shadow: 0 0 10px rgba(13, 148, 136, 0.25);
+    outline: none;
+}
+
+.form-glass-control::placeholder {
+    color: var(--text-muted);
+}
+
+.form-glass-label {
+    font-weight: 500;
+    color: var(--light-gray);
+    margin-bottom: 0.5rem;
+}
+
+/* Glass indicators & stats counters */
+.stat-box {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stat-icon {
+    font-size: 2.2rem;
+    color: var(--teal-green);
+    background: rgba(13, 148, 136, 0.1);
+    padding: 0.8rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-box:hover .stat-icon {
+    color: var(--accent-green);
+    background: rgba(16, 185, 129, 0.1);
+    transform: rotate(5deg) scale(1.05);
+    transition: var(--transition-smooth);
+}
+
+/* Hero animations & 3D styling */
+.text-gradient {
+    background: linear-gradient(135deg, var(--pure-white) 30%, var(--teal-green-hover) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.accent-text-gradient {
+    background: linear-gradient(135deg, var(--teal-green-hover) 0%, var(--accent-green) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Sidebar responsive adjustments */
+@media (max-width: 991.98px) {
+    #sidebar {
+        margin-left: calc(-1 * var(--sidebar-width));
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #content {
+        padding: 1.5rem;
+    }
+}
+
+/* Fix all muted text visibility */
+.text-muted{
+    color: #e2e8f0 !important;
+}
+
+/* Improve visibilty of teal hovertext */
+.text-teal-hover {
+    color: #f1f5f9 !important;
+}
+
+/* Improve table text visibility */
+.table-glass td,
+.table-glass tbody td,
+.table-glass tr td {
+    color: #f1f5f9 !important;
+}

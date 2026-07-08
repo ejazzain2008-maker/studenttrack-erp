@@ -1,0 +1,150 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}Admin Dashboard - StudentTrack ERP{% endblock %}
+
+{% block content %}
+<!-- Quick System Stats Row -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="glass-card stat-box h-100">
+            <div>
+                <span class="text-muted d-block text-uppercase small font-weight-bold">Total Students</span>
+                <h3 class="fw-bold mb-0 text-gradient">{{ total_students }}</h3>
+            </div>
+            <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <div class="glass-card stat-box h-100">
+            <div>
+                <span class="text-muted d-block text-uppercase small font-weight-bold">Pending Reviews</span>
+                <h3 class="fw-bold mb-0 text-gradient text-warning">{{ pending_uploads }}</h3>
+            </div>
+            <div class="stat-icon"><i class="fa-solid fa-file-signature"></i></div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <div class="glass-card stat-box h-100">
+            <div>
+                <span class="text-muted d-block text-uppercase small font-weight-bold">Support Inquiries</span>
+                <h3 class="fw-bold mb-0 text-gradient">{{ total_messages }}</h3>
+            </div>
+            <div class="stat-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="glass-card stat-box h-100">
+            <div>
+                <span class="text-muted d-block text-uppercase small font-weight-bold">Average Marks</span>
+                <h3 class="fw-bold mb-0 text-gradient text-success">{{ avg_marks }}%</h3>
+            </div>
+            <div class="stat-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Admin CRUD quick actions & logs -->
+<div class="row">
+    <!-- Document Submissions Approval center -->
+    <div class="col-lg-8 mb-4">
+        <div class="glass-card p-4">
+            <h4 class="fw-bold mb-4"><i class="fa-solid fa-file-shield me-2 text-teal"></i>Student File Approvals</h4>
+            <div class="table-responsive-glass">
+                <table class="table table-glass">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Document Title</th>
+                            <th>Uploaded</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for doc in recent_uploads %}
+                        <tr>
+                            <td>
+                                <div>{{ doc.student.get_full_name|default:doc.student.username }}</div>
+                                <small class="text-muted">{{ doc.student.profile.roll_number }}</small>
+                            </td>
+                            <td>
+                                <a href="{{ doc.file.url }}" target="_blank" class="text-white text-decoration-none">
+                                    <i class="fa-solid fa-file-lines text-teal me-2"></i>{{ doc.title }}
+                                </a>
+                            </td>
+                            <td>{{ doc.uploaded_at|date:"d M H:i" }}</td>
+                            <td>
+                                <span class="badge {% if doc.status == 'Approved' %}badge-accent{% elif doc.status == 'Rejected' %}badge-danger-glass{% else %}badge-teal{% endif %}">
+                                    {{ doc.status }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if doc.status == 'Pending' %}
+                                    <button class="btn btn-accent btn-sm" data-bs-toggle="modal" data-bs-target="#actionModal{{ doc.id }}">Review</button>
+                                    
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="actionModal{{ doc.id }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content glass-card text-white p-4">
+                                                <div class="modal-header border-0 p-0 mb-3">
+                                                    <h5 class="modal-title fw-bold">Review Document</h5>
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body p-0">
+                                                    <p class="text-muted">Document: <strong class="text-white">{{ doc.title }}</strong> by student <strong class="text-white">{{ doc.student.username }}</strong>.</p>
+                                                    <form method="POST" action="{% url 'update_file_status' doc.id 'approve' %}">
+                                                        {% csrf_token %}
+                                                        <div class="mb-3">
+                                                            <label class="form-glass-label">Review Feedback</label>
+                                                            <input type="text" name="feedback" class="form-control form-glass-control" placeholder="Provide reason or corrections...">
+                                                        </div>
+                                                        <div class="d-flex gap-2">
+                                                            <button type="submit" class="btn btn-accent flex-grow-1">Approve</button>
+                                                            <button type="submit" formaction="{% url 'update_file_status' doc.id 'reject' %}" class="btn btn-danger flex-grow-1">Reject</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <small class="text-muted">Reviewed</small>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">No student document submissions found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- System Activity Log Sidebar -->
+    <div class="col-lg-4 mb-4">
+        <div class="glass-card p-4">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-shield-halved me-2 text-teal"></i>Recent Audit Trails</h5>
+            <div class="list-group list-group-flush bg-transparent">
+                {% for log in recent_logs %}
+                <div class="list-group-item bg-transparent text-white border-secondary px-0 py-2">
+                    <div class="d-flex justify-content-between">
+                        <small class="fw-bold text-teal-hover">{{ log.user.username|default:"Anonymous" }}</small>
+                        <small class="text-muted">{{ log.timestamp|date:"H:i:s" }}</small>
+                    </div>
+                    <div style="font-size: 0.85rem;" class="text-white opacity-75 mt-1">{{ log.action }}</div>
+                </div>
+                {% empty %}
+                <p class="text-muted text-center py-4">No system activities logged yet.</p>
+                {% endfor %}
+            </div>
+            <a href="{% url 'activity_logs' %}" class="btn btn-glass w-100 btn-sm mt-3">View Full Activity Logs</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

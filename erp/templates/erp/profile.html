@@ -1,0 +1,65 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}User Profile - StudentTrack ERP{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="glass-card p-5">
+            <div class="text-center mb-5">
+                {% if target_user.profile.profile_pic %}
+                    <img src="{{ target_user.profile.profile_pic.url }}" alt="Profile Avatar" class="rounded-circle border border-teal border-4 shadow-lg mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                {% else %}
+                    <div class="rounded-circle bg-dark text-teal border border-teal border-4 d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 150px; height: 150px; font-size: 4rem;">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                {% endif %}
+                
+                <h2 class="fw-bold mb-1 text-gradient">{{ target_user.get_full_name|default:target_user.username }}</h2>
+                <span class="badge badge-teal fs-6">{{ target_user.profile.get_role_display }}</span>
+            </div>
+            
+            <h4 class="fw-bold border-bottom border-secondary pb-2 mb-4">Account Information</h4>
+            <div class="row mb-4">
+                <div class="col-sm-4 text-muted">Username:</div>
+                <div class="col-sm-8 text-white fw-bold">{{ target_user.username }}</div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-sm-4 text-muted">Email Address:</div>
+                <div class="col-sm-8 text-white">{{ target_user.email }}</div>
+            </div>
+            
+            {% if target_user.profile.role == 'student' %}
+            <div class="row mb-4">
+                <div class="col-sm-4 text-muted">Roll Number:</div>
+                <div class="col-sm-8 text-white fw-semibold">{{ target_user.profile.roll_number|default:"Not assigned" }}</div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-sm-4 text-muted">Diploma Course:</div>
+                <div class="col-sm-8 text-white">{{ target_user.profile.course|default:"Not enrolled" }}</div>
+            </div>
+            {% endif %}
+            
+            <div class="row mb-4">
+                <div class="col-sm-4 text-muted">Phone Number:</div>
+                <div class="col-sm-8 text-white">{{ target_user.profile.phone|default:"Not provided" }}</div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-sm-4 text-muted">Bio Description:</div>
+                <div class="col-sm-8 text-white">{{ target_user.profile.bio|default:"No bio written yet." }}</div>
+            </div>
+            
+            {% if target_user == user %}
+            <div class="d-flex gap-3 mt-5 pt-3 border-top border-secondary">
+                <a href="{% url 'profile_edit' %}" class="btn btn-teal flex-grow-1 py-2">
+                    <i class="fa-solid fa-user-edit me-2"></i>Edit Profile Info
+                </a>
+                <a href="{% url 'change_password' %}" class="btn btn-glass flex-grow-1 py-2">
+                    <i class="fa-solid fa-key me-2"></i>Change Password
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

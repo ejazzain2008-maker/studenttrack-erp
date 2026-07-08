@@ -1,0 +1,51 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}System Settings - StudentTrack ERP{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-6 mx-auto">
+        <div class="glass-card p-5">
+            <h3 class="fw-bold mb-4 accent-text-gradient"><i class="fa-solid fa-sliders me-2"></i>Preferences & Settings</h3>
+            <p class="text-muted mb-4">Adjust local display, animations, and sidebar layouts for this session.</p>
+            
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label class="form-glass-label d-flex justify-content-between align-items-center">
+                        <span><i class="fa-solid fa-moon text-teal me-2"></i>Dark Theme (Default)</span>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="dark_mode" value="true" checked disabled style="cursor: not-allowed; background-color: var(--teal-green); border-color: var(--teal-green);">
+                        </div>
+                    </label>
+                    <small class="text-muted d-block mt-1">Background is locked to Dark Blue theme as requested by the institution.</small>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-glass-label d-flex justify-content-between align-items-center">
+                        <span><i class="fa-solid fa-gauge-high text-teal me-2"></i>Enable Micro-animations</span>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="enable_animations" value="true" {% if request.session.enable_animations|default:True %}checked{% endif %}>
+                        </div>
+                    </label>
+                    <small class="text-muted d-block mt-1">Toggles micro-animations and smooth card lifts on interactive cards hover.</small>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-glass-label d-flex justify-content-between align-items-center">
+                        <span><i class="fa-solid fa-table-columns text-teal me-2"></i>Expand Sidebar by Default</span>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="sidebar_expanded" value="true" {% if request.session.sidebar_expanded|default:True %}checked{% endif %}>
+                        </div>
+                    </label>
+                    <small class="text-muted d-block mt-1">Keeps the left navigation panel open by default on desktop monitors.</small>
+                </div>
+                
+                <button type="submit" class="btn btn-teal w-100 py-2 fs-5 mt-3">
+                    <i class="fa-solid fa-save me-2"></i>Save Preferences
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

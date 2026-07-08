@@ -1,0 +1,109 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}Search System - StudentTrack ERP{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Search Bar Card -->
+    <div class="col-12 mb-4">
+        <div class="glass-card p-4">
+            <h4 class="fw-bold mb-3"><i class="fa-solid fa-search me-2 text-teal"></i>Search StudentTrack ERP</h4>
+            <form method="GET">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control form-glass-control py-3" placeholder="Enter keyword to search documents, records, or course tracks..." value="{{ query }}" required>
+                    <button type="submit" class="btn btn-teal px-4"><i class="fa-solid fa-magnifying-glass me-2"></i>Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    {% if query %}
+    <div class="col-12">
+        <div class="glass-card p-4">
+            <h5 class="fw-bold mb-4">Search Results for: <strong class="text-teal-hover">"{{ query }}"</strong></h5>
+            
+            {% if is_admin %}
+                <!-- Admin view searches: Users, Docs, Records -->
+                <div class="row">
+                    <!-- Matching Student Profiles -->
+                    <div class="col-md-4 mb-4">
+                        <h6 class="fw-bold mb-3"><i class="fa-solid fa-user-graduate text-teal me-2"></i>Students ({{ users_results|length }})</h6>
+                        <div class="list-group list-group-flush bg-transparent">
+                            {% for prof in users_results %}
+                            <a href="{% url 'profile' %}?id={{ prof.user.id }}" class="list-group-item bg-transparent text-white border-secondary px-0 py-3 text-decoration-none">
+                                <div class="fw-bold">{{ prof.user.get_full_name|default:prof.user.username }}</div>
+                                <small class="text-muted">Roll: {{ prof.roll_number }} | {{ prof.course }}</small>
+                            </a>
+                            {% empty %}
+                            <p class="text-muted">No student profiles match query.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <!-- Matching Uploaded Documents -->
+                    <div class="col-md-4 mb-4">
+                        <h6 class="fw-bold mb-3"><i class="fa-solid fa-file-invoice text-teal me-2"></i>Documents ({{ docs_results|length }})</h6>
+                        <div class="list-group list-group-flush bg-transparent">
+                            {% for doc in docs_results %}
+                            <a href="{{ doc.file.url }}" target="_blank" class="list-group-item bg-transparent text-white border-secondary px-0 py-3 text-decoration-none">
+                                <div class="fw-bold text-truncate">{{ doc.title }}</div>
+                                <small class="text-muted">By: @{{ doc.student.username }} | Status: {{ doc.status }}</small>
+                            </a>
+                            {% empty %}
+                            <p class="text-muted">No documents match query.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Matching Academic Records -->
+                    <div class="col-md-4 mb-4">
+                        <h6 class="fw-bold mb-3"><i class="fa-solid fa-database text-teal me-2"></i>Academic Records ({{ records_results|length }})</h6>
+                        <div class="list-group list-group-flush bg-transparent">
+                            {% for record in records_results %}
+                            <a href="{% url 'data_management' %}" class="list-group-item bg-transparent text-white border-secondary px-0 py-3 text-decoration-none">
+                                <div class="fw-bold">{{ record.student.username }} - {{ record.semester }}</div>
+                                <small class="text-muted">Marks: {{ record.marks_obtained }}% | Attendance: {{ record.attendance_percentage }}%</small>
+                            </a>
+                            {% empty %}
+                            <p class="text-muted">No academic records match query.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <!-- Student searches their own Uploads & Records -->
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <h6 class="fw-bold mb-3"><i class="fa-solid fa-file-invoice text-teal me-2"></i>Your Submitted Documents ({{ docs_results|length }})</h6>
+                        <div class="list-group list-group-flush bg-transparent">
+                            {% for doc in docs_results %}
+                            <a href="{{ doc.file.url }}" target="_blank" class="list-group-item bg-transparent text-white border-secondary px-0 py-3 text-decoration-none">
+                                <div class="fw-bold text-truncate">{{ doc.title }}</div>
+                                <small class="text-muted">Uploaded: {{ doc.uploaded_at|date:"d M Y" }} | Status: {{ doc.status }}</small>
+                            </a>
+                            {% empty %}
+                            <p class="text-muted">No documents match query.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <h6 class="fw-bold mb-3"><i class="fa-solid fa-database text-teal me-2"></i>Your Academic stand ({{ records_results|length }})</h6>
+                        <div class="list-group list-group-flush bg-transparent">
+                            {% for record in records_results %}
+                            <a href="{% url 'reports' %}" class="list-group-item bg-transparent text-white border-secondary px-0 py-3 text-decoration-none">
+                                <div class="fw-bold">{{ record.semester }} details</div>
+                                <small class="text-muted">Marks: {{ record.marks_obtained }}% | Attendance: {{ record.attendance_percentage }}%</small>
+                            </a>
+                            {% empty %}
+                            <p class="text-muted">No academic records match query.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

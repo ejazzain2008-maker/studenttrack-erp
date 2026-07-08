@@ -1,0 +1,69 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}Help Center - StudentTrack ERP{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="glass-card p-5">
+            <h3 class="fw-bold mb-4 accent-text-gradient"><i class="fa-solid fa-question-circle me-2"></i>Help Center & FAQs</h3>
+            
+            <div class="accordion bg-transparent" id="helpAccordion">
+                
+                <div class="accordion-item bg-transparent text-white border-secondary mb-3">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button bg-transparent text-white fw-bold border-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            How do I sign up and add my Diploma course details?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#helpAccordion">
+                        <div class="accordion-body text-muted border-top border-secondary">
+                            During public signup, select your specific Diploma Course (e.g. Diploma in Computer Science) and input your official Roll Number. The roll number must be unique across the platform.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-transparent text-white border-secondary mb-3">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button bg-transparent text-white fw-bold border-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            How can I submit documents or enrollment forms?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#helpAccordion">
+                        <div class="accordion-body text-muted border-top border-secondary">
+                            Navigate to the "Upload Forms" page, fill in the file title, select a document (PDF, DOCX, or Image), and click Submit. Your files will be marked as "Pending" until an administrator reviews and approves or rejects them.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-transparent text-white border-secondary mb-3">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button bg-transparent text-white fw-bold border-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Where can I view my grades and download my transcript?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#helpAccordion">
+                        <div class="accordion-body text-muted border-top border-secondary">
+                            Click on the "Reports Summary" tab in your sidebar. You will see a table displaying all semester marks and attendance stats. You can click on the "Download PDF Report" button to export this data.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-transparent text-white border-secondary">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button bg-transparent text-white fw-bold border-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Can a user view Admin credentials or access control views?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#helpAccordion">
+                        <div class="accordion-body text-muted border-top border-secondary">
+                            No. StudentTrack ERP implements strict Role-Based Access Control (RBAC). Standard student users cannot access admin dashboards, user management panels, or view details of any administrative profile.
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

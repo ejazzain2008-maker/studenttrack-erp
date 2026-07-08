@@ -1,0 +1,123 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}Student Hub - StudentTrack ERP{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <!-- Welcome Header & Profile Card -->
+    <div class="col-lg-8 mb-4">
+        <div class="glass-card p-4 d-flex align-items-center gap-4 h-100">
+            {% if profile.profile_pic %}
+                <img src="{{ profile.profile_pic.url }}" alt="Avatar" class="rounded-circle border border-teal border-3" style="width: 90px; height: 90px; object-fit: cover;">
+            {% else %}
+                <div class="rounded-circle bg-dark text-teal border border-teal border-3 d-flex align-items-center justify-content-center" style="width: 90px; height: 90px; font-size: 2.5rem;">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+            {% endif %}
+            
+            <div>
+                <span class="badge badge-teal mb-2">Student Portal</span>
+                <h2 class="fw-bold mb-1 text-gradient">Hello, {{ user.first_name|default:user.username }}!</h2>
+                <p class="mb-0 text-muted">Course: <strong class="text-white">{{ profile.course|default:"Not Enrolled" }}</strong> | Roll No: <strong class="text-white">{{ profile.roll_number|default:"N/A" }}</strong></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Analytics/Averages -->
+    <div class="col-lg-4 mb-4">
+        <div class="glass-card p-4 h-100 d-flex flex-column justify-content-center">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-chart-pie me-2 text-teal"></i>Core Standings</h5>
+            <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Average Marks:</span>
+                <span class="fw-bold text-success">{{ avg_marks }}%</span>
+            </div>
+            <div class="progress mb-3" style="height: 6px; background: rgba(255,255,255,0.05);">
+                <div class="progress-bar bg-success" role="progressbar" style="width: {{ avg_marks }}%"></div>
+            </div>
+            
+            <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Avg Attendance:</span>
+                <span class="fw-bold text-teal-hover">{{ avg_attendance }}%</span>
+            </div>
+            <div class="progress" style="height: 6px; background: rgba(255,255,255,0.05);">
+                <div class="progress-bar bg-teal" role="progressbar" style="width: {{ avg_attendance }}%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Academic Transcripts & Document uploads status -->
+<div class="row">
+    <div class="col-lg-8 mb-4">
+        <div class="glass-card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="fw-bold mb-0"><i class="fa-solid fa-list-check me-2 text-teal"></i>Recent Semester Performance</h4>
+                <a href="{% url 'reports' %}" class="btn btn-glass btn-sm">View All Reports</a>
+            </div>
+            
+            <div class="table-responsive-glass">
+                <table class="table table-glass">
+                    <thead>
+                        <tr>
+                            <th>Semester</th>
+                            <th>Marks Obtained</th>
+                            <th>Attendance</th>
+                            <th>Academic Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in records|slice:":4" %}
+                        <tr>
+                            <td class="fw-semibold">{{ record.semester }}</td>
+                            <td>{{ record.marks_obtained }}%</td>
+                            <td>{{ record.attendance_percentage }}%</td>
+                            <td>
+                                <span class="badge {% if record.academic_status == 'Active' %}badge-accent{% else %}badge-danger-glass{% endif %}">
+                                    {{ record.academic_status }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-4">No semester records uploaded by Admin yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4 mb-4">
+        <div class="glass-card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold mb-0"><i class="fa-solid fa-file-arrow-up me-2 text-teal"></i>Document Submissions</h5>
+                <a href="{% url 'upload_files' %}" class="btn btn-glass btn-sm"><i class="fa-solid fa-plus"></i></a>
+            </div>
+            
+            <div class="list-group list-group-flush bg-transparent">
+                {% for doc in recent_docs %}
+                <div class="list-group-item bg-transparent text-white border-secondary px-0 py-3">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="mb-1 fw-bold text-truncate" style="max-width: 180px;">{{ doc.title }}</h6>
+                            <small class="text-muted">{{ doc.uploaded_at|date:"d M Y" }}</small>
+                        </div>
+                        <span class="badge {% if doc.status == 'Approved' %}badge-accent{% elif doc.status == 'Rejected' %}badge-danger-glass{% else %}badge-teal{% endif %}">
+                            {{ doc.status }}
+                        </span>
+                    </div>
+                    {% if doc.feedback %}
+                    <div class="mt-2 p-2 rounded bg-dark border border-secondary" style="font-size: 0.8rem;">
+                        <span class="text-teal font-weight-bold">Feedback:</span> {{ doc.feedback }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p class="text-muted text-center py-4 my-0">No documents uploaded yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

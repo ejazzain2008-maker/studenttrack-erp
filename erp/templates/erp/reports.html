@@ -1,0 +1,69 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}Academic Reports - StudentTrack ERP{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="glass-card p-4 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <h3 class="fw-bold mb-1"><i class="fa-solid fa-file-invoice me-2 text-teal"></i>Academic Reports Dashboard</h3>
+                <p class="text-muted mb-0">{% if is_admin %}All student performance and attendance parameters collected globally.{% else %}Your personal course progress metrics and credentials statements.{% endif %}</p>
+            </div>
+            
+            <a href="{% url 'pdf_download' %}" target="_blank" class="btn btn-teal px-4 py-2">
+                <i class="fa-solid fa-file-pdf me-2"></i>Download PDF Report
+            </a>
+        </div>
+    </div>
+    
+    <div class="col-12">
+        <div class="glass-card p-4">
+            <h5 class="fw-bold mb-3">Academic Summary Statements</h5>
+            <div class="table-responsive-glass">
+                <table class="table table-glass">
+                    <thead>
+                        <tr>
+                            {% if is_admin %}
+                                <th>Student</th>
+                                <th>Roll Number</th>
+                                <th>Diploma Program</th>
+                            {% endif %}
+                            <th>Semester</th>
+                            <th>Marks Obtained (%)</th>
+                            <th>Attendance Percentage</th>
+                            <th>Academic Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in records %}
+                        <tr>
+                            {% if is_admin %}
+                                <td>
+                                    <strong>{{ record.student.get_full_name|default:record.student.username }}</strong>
+                                    <div class="text-muted" style="font-size: 0.8rem;">@{{ record.student.username }}</div>
+                                </td>
+                                <td>{{ record.student.profile.roll_number }}</td>
+                                <td>{{ record.student.profile.course }}</td>
+                            {% endif %}
+                            <td class="fw-semibold">{{ record.semester }}</td>
+                            <td class="fw-bold text-success">{{ record.marks_obtained }}%</td>
+                            <td class="text-teal-hover">{{ record.attendance_percentage }}%</td>
+                            <td>
+                                <span class="badge {% if record.academic_status == 'Active' %}badge-accent{% else %}badge-danger-glass{% endif %}">
+                                    {{ record.academic_status }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="{% if is_admin %}7{% else %}4{% endif %}" class="text-center text-muted py-4">No records found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

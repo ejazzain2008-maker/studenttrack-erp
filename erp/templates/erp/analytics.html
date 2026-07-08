@@ -1,0 +1,220 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}System Analytics - StudentTrack ERP{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="glass-card p-4">
+            <h3 class="fw-bold mb-1"><i class="fa-solid fa-chart-line me-2 text-teal"></i>Analytics Dashboard</h3>
+            <p class="text-muted mb-0">Graphical representations of academic performance ranges, enrollment ratios, and attendance distributions.</p>
+        </div>
+    </div>
+</div>
+
+{% if is_admin %}
+<!-- Admin Analytics Graphs -->
+<div class="row">
+    <!-- Course Enrollment Chart -->
+    <div class="col-md-6 mb-4">
+        <div class="glass-card p-4 h-100">
+            <h5 class="fw-bold mb-4 text-white"><i class="fa-solid fa-users text-teal me-2"></i>Enrollment by Program</h5>
+            <div style="position: relative; height: 280px;">
+                <canvas id="courseChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Status Distribution Chart -->
+    <div class="col-md-6 mb-4">
+        <div class="glass-card p-4 h-100">
+            <h5 class="fw-bold mb-4 text-white"><i class="fa-solid fa-circle-nodes text-teal me-2"></i>Student Standings Distribution</h5>
+            <div style="position: relative; height: 280px; display: flex; justify-content: center;">
+                <canvas id="statusChart" style="max-width: 280px;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance Performance Chart -->
+    <div class="col-12 mb-4">
+        <div class="glass-card p-4">
+            <h5 class="fw-bold mb-4 text-white"><i class="fa-solid fa-calendar-check text-teal me-2"></i>Average Attendance by Diploma Program</h5>
+            <div style="position: relative; height: 300px;">
+                <canvas id="attendanceChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<!-- Student Specific Analytics -->
+<div class="row">
+    <!-- Semester Marks Progress Line -->
+    <div class="col-md-6 mb-4">
+        <div class="glass-card p-4 h-100">
+            <h5 class="fw-bold mb-4 text-white"><i class="fa-solid fa-chart-area text-teal me-2"></i>Semester Grades Timeline (%)</h5>
+            <div style="position: relative; height: 280px;">
+                <canvas id="studentMarksChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Semester Attendance Bar -->
+    <div class="col-md-6 mb-4">
+        <div class="glass-card p-4 h-100">
+            <h5 class="fw-bold mb-4 text-white"><i class="fa-solid fa-clipboard-user text-teal me-2"></i>Semester Attendance (%)</h5>
+            <div style="position: relative; height: 280px;">
+                <canvas id="studentAttendanceChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Global Chart.js styling variables
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.08)';
+
+        {% if is_admin %}
+            // Admin Course Enrollment Chart
+            const ctxCourse = document.getElementById('courseChart').getContext('2d');
+            new Chart(ctxCourse, {
+                type: 'bar',
+                data: {
+                    labels: {{ course_labels|safe }},
+                    datasets: [{
+                        label: 'Students Enrolled',
+                        data: {{ course_data|safe }},
+                        backgroundColor: 'rgba(13, 148, 136, 0.65)',
+                        borderColor: '#0d9488',
+                        borderWidth: 2,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 }
+                        }
+                    }
+                }
+            });
+
+            // Admin Student Academic Status Chart
+            const ctxStatus = document.getElementById('statusChart').getContext('2d');
+            new Chart(ctxStatus, {
+                type: 'doughnut',
+                data: {
+                    labels: {{ grade_labels|safe }},
+                    datasets: [{
+                        data: {{ grade_data|safe }},
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.75)',  // Active (green)
+                            'rgba(239, 68, 68, 0.7)',   // Suspended (red)
+                            'rgba(13, 148, 136, 0.7)'   // Graduated (teal)
+                        ],
+                        borderColor: '#0a192f',
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // Admin Average Attendance per Course
+            const ctxAtt = document.getElementById('attendanceChart').getContext('2d');
+            new Chart(ctxAtt, {
+                type: 'bar',
+                data: {
+                    labels: {{ course_att_labels|safe }},
+                    datasets: [{
+                        label: 'Average Attendance (%)',
+                        data: {{ course_att_data|safe }},
+                        backgroundColor: 'rgba(16, 185, 129, 0.65)',
+                        borderColor: '#10b981',
+                        borderWidth: 2,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                }
+            });
+
+        {% else %}
+            // Student Semester Marks Progress Chart
+            const ctxSM = document.getElementById('studentMarksChart').getContext('2d');
+            new Chart(ctxSM, {
+                type: 'line',
+                data: {
+                    labels: {{ semester_labels|safe }},
+                    datasets: [{
+                        label: 'Semester Marks (%)',
+                        data: {{ semester_marks|safe }},
+                        borderColor: '#14b8a6',
+                        backgroundColor: 'rgba(20, 184, 166, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#10b981',
+                        pointBorderColor: '#0a192f',
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { min: 0, max: 100 }
+                    }
+                }
+            });
+
+            // Student Semester Attendance Chart
+            const ctxSA = document.getElementById('studentAttendanceChart').getContext('2d');
+            new Chart(ctxSA, {
+                type: 'bar',
+                data: {
+                    labels: {{ semester_labels|safe }},
+                    datasets: [{
+                        label: 'Attendance (%)',
+                        data: {{ semester_att|safe }},
+                        backgroundColor: 'rgba(16, 185, 129, 0.65)',
+                        borderColor: '#10b981',
+                        borderWidth: 2,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { min: 0, max: 100 }
+                    }
+                }
+            });
+        {% endif %}
+    });
+</script>
+{% endblock %}

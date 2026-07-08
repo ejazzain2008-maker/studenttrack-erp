@@ -1,0 +1,23 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}Logged Out - StudentTrack ERP{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="glass-card p-5 text-center">
+            <i class="fa-solid fa-circle-check text-success mb-4" style="font-size: 4rem;"></i>
+            <h3 class="fw-bold mb-3">Logged Out Successfully</h3>
+            <p class="text-muted mb-4">You have ended your active session on StudentTrack ERP. All cached auth records are cleared safely.</p>
+            <div class="d-flex flex-column gap-2">
+                <a href="{% url 'login' %}" class="btn btn-teal w-100 py-2">
+                    <i class="fa-solid fa-sign-in-alt me-2"></i>Log In Again
+                </a>
+                <a href="{% url 'home' %}" class="btn btn-glass w-100 py-2">
+                    <i class="fa-solid fa-home me-2"></i>Go to Homepage
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

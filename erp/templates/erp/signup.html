@@ -1,0 +1,114 @@
+{% extends 'erp/base.html' %}
+
+{% block title %}Student Registration - StudentTrack ERP{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-4">
+    <div class="col-md-8 col-lg-7">
+        <div class="glass-card p-5">
+            <div class="text-center mb-4">
+                <i class="fa-solid fa-user-plus text-teal mb-3" style="font-size: 3rem;"></i>
+                <h3 class="fw-bold">Student Registration</h3>
+                <p class="text-muted">Register to access your personal Student hub</p>
+            </div>
+            
+            <form method="POST">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger glass-card text-white mb-4">
+                        {% for error in form.non_field_errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-glass-label">Username</label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <small class="text-danger">{{ form.username.errors.0 }}</small>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-glass-label">Email Address</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <small class="text-danger">{{ form.email.errors.0 }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-glass-label">First Name</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-glass-label">Last Name</label>
+                        {{ form.last_name }}
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-glass-label">Roll Number</label>
+                        {{ form.roll_number }}
+                        {% if form.roll_number.errors %}
+                            <small class="text-danger">{{ form.roll_number.errors.0 }}</small>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-glass-label">Diploma Course</label>
+                        {{ form.course }}
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-glass-label">Phone Number</label>
+                    {{ form.phone }}
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-glass-label">Password</label>
+                        {{ form.password }}
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <label class="form-glass-label">Confirm Password</label>
+                        {{ form.confirm_password }}
+                        {% if form.confirm_password.errors %}
+                            <small class="text-danger">{{ form.confirm_password.errors.0 }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-teal w-100 py-2 fs-5 mb-3">
+                    <i class="fa-solid fa-user-check me-2"></i>Sign Up
+                </button>
+            </form>
+            
+            <div class="text-center mt-2">
+                <span class="text-muted">Already registered? </span>
+                <a href="{% url 'login' %}" class="text-teal text-decoration-none fw-bold">Login here</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Styling the dynamically rendered fields to match our glassmorphism design
+    document.addEventListener("DOMContentLoaded", function() {
+        const fields = document.querySelectorAll("#content input, #content select");
+        fields.forEach(function(field) {
+            if (field.type !== "hidden" && field.type !== "submit" && field.type !== "checkbox") {
+                field.classList.add("form-control", "form-glass-control");
+            }
+        });
+    });
+</script>
+{% endblock %}
