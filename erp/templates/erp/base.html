@@ -18,8 +18,7 @@
     {% block extra_css %}{% endblock %}
     
     <style>
-        /* Force White Text across all elements */
-        body, p, span, small, label, h1, h2, h3, h4, h5, h6, 
+        /* Force White/Legible Text for low contrast utility classes */
         .text-muted, .text-secondary, .form-text, .form-glass-label,
         .nav-link, .navbar-nav .nav-link, .text-white-50, .text-body-secondary {
             color: #ffffff !important;
@@ -267,6 +266,20 @@
             border-color: transparent !important;
             box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3) !important;
             padding-left: 1rem !important;
+        }
+
+        /* Force side-by-side flex layout to prevent wrapping below sidebar */
+        #wrapper {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            width: 100% !important;
+            align-items: stretch !important;
+        }
+        #content {
+            flex-grow: 1 !important;
+            width: calc(100% - var(--sidebar-width)) !important;
+            min-width: 0 !important;
         }
     </style>
 </head>
