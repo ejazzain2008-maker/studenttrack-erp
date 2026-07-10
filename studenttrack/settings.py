@@ -86,39 +86,27 @@ WSGI_APPLICATION = 'studenttrack.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-import sys
 import os
 
-# Real MySQL configuration at runtime or fallback to dummy on Render build
+DB_NAME = os.environ.get('DB_NAME', 'studenttrack_db')
+DB_USER = os.environ.get('DB_USER', 'root')
+DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
 DB_HOST = os.environ.get('DB_HOST', '127.0.0.1')
+DB_PORT = os.environ.get('DB_PORT', '3306')
 
-# If running on Render and DB_HOST is localhost/127.0.0.1, we are in build step or DB is unconfigured.
-# Use Django's dummy engine to prevent connection refused crashes.
-if os.environ.get('RENDER') == 'true' and DB_HOST in ('127.0.0.1', 'localhost'):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.dummy',
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': DB_NAME,
+        'USER': DB_USER,
+        'PASSWORD': DB_PASSWORD,
+        'HOST': DB_HOST,
+        'PORT': DB_PORT,
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         }
     }
-else:
-    DB_NAME = os.environ.get('DB_NAME', 'studenttrack_db')
-    DB_USER = os.environ.get('DB_USER', 'root')
-    DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
-    DB_PORT = os.environ.get('DB_PORT', '3306')
-
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': DB_NAME,
-            'USER': DB_USER,
-            'PASSWORD': DB_PASSWORD,
-            'HOST': DB_HOST,
-            'PORT': DB_PORT,
-            'OPTIONS': {
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            }
-        }
-    }
+}
 
 
 # Password validation
