@@ -89,22 +89,21 @@ WSGI_APPLICATION = 'studenttrack.wsgi.application'
 import sys
 import os
 
-# Detect if we are in the static file compilation/build step
-IS_BUILD_STEP = 'collectstatic' in sys.argv
+# Real MySQL configuration at runtime or fallback to dummy on Render build
+DB_HOST = os.environ.get('DB_HOST', '127.0.0.1')
 
-if IS_BUILD_STEP:
-    # Use Django's built-in dummy database during static compilation to bypass database checks
+# If running on Render and DB_HOST is localhost/127.0.0.1, we are in build step or DB is unconfigured.
+# Use Django's dummy engine to prevent connection refused crashes.
+if os.environ.get('RENDER') == 'true' and DB_HOST in ('127.0.0.1', 'localhost'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.dummy',
         }
     }
 else:
-    # Real MySQL configuration at runtime
     DB_NAME = os.environ.get('DB_NAME', 'studenttrack_db')
     DB_USER = os.environ.get('DB_USER', 'root')
     DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
-    DB_HOST = os.environ.get('DB_HOST', '127.0.0.1')
     DB_PORT = os.environ.get('DB_PORT', '3306')
 
     DATABASES = {
