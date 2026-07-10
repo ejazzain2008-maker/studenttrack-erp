@@ -82,6 +82,95 @@
             box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
             transform: translateY(-2px) !important;
         }
+
+        /* Sidebar Styling Upgrades */
+        #sidebar {
+            height: 100vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(20, 184, 166, 0.2) transparent;
+        }
+        #sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+        #sidebar::-webkit-scrollbar-thumb {
+            background: rgba(20, 184, 166, 0.2);
+            border-radius: 4px;
+        }
+        
+        .sidebar-section-title {
+            padding: 1.2rem 1.5rem 0.4rem 1.5rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #14b8a6 !important;
+            opacity: 0.85;
+            list-style: none;
+        }
+        
+        .components-nav li a {
+            padding: 0.65rem 1.5rem !important;
+            font-size: 0.9rem !important;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #cbd5e1 !important;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out !important;
+            border-left: 4px solid transparent;
+        }
+        
+        .components-nav li a:hover {
+            color: #ffffff !important;
+            background: rgba(20, 184, 166, 0.08) !important;
+            border-left-color: rgba(20, 184, 166, 0.5) !important;
+            padding-left: 1.7rem !important;
+        }
+        
+        .components-nav li.active a {
+            color: #ffffff !important;
+            background: linear-gradient(90deg, rgba(20, 184, 166, 0.15) 0%, transparent 100%) !important;
+            border-left-color: #10b981 !important;
+            font-weight: 600 !important;
+        }
+
+        .components-nav li a i {
+            width: 20px;
+            font-size: 1rem;
+            color: #14b8a6 !important;
+        }
+        
+        .components-nav li.active a i {
+            color: #10b981 !important;
+        }
+
+        /* Sidebar Logout button custom style */
+        .sidebar-logout-item {
+            margin-top: 1.5rem;
+            margin-bottom: 2.5rem;
+            padding: 0 1rem;
+            list-style: none;
+        }
+        .sidebar-logout-link {
+            padding: 0.65rem 1rem !important;
+            border-radius: 8px !important;
+            background: rgba(239, 68, 68, 0.1) !important;
+            border: 1px solid rgba(239, 68, 68, 0.2) !important;
+            color: #ef4444 !important;
+            justify-content: center;
+            border-left: none !important;
+        }
+        .sidebar-logout-link i {
+            color: #ef4444 !important;
+        }
+        .sidebar-logout-link:hover {
+            background: #ef4444 !important;
+            color: #ffffff !important;
+            border-color: transparent !important;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3) !important;
+            padding-left: 1rem !important;
+        }
     </style>
 </head>
 <body>
@@ -98,6 +187,8 @@
             </div>
             
             <ul class="components-nav">
+                <!-- Group 1: Portal Navigation -->
+                <li class="sidebar-section-title">Core Portal</li>
                 {% if user.profile.role == 'admin' %}
                     <!-- Admin Specific Options -->
                     <li class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
@@ -119,21 +210,13 @@
                     </li>
                 {% endif %}
                 
-                <!-- Shared Navigation Links -->
+                <!-- Group 2: Academic standing & history -->
+                <li class="sidebar-section-title">Reports & Logs</li>
                 <li class="{% if request.resolver_match.url_name == 'reports' %}active{% endif %}">
                     <a href="{% url 'reports' %}"><i class="fa-solid fa-file-invoice"></i> Reports Summary</a>
                 </li>
                 <li class="{% if request.resolver_match.url_name == 'analytics' %}active{% endif %}">
                     <a href="{% url 'analytics' %}"><i class="fa-solid fa-chart-line"></i> Analytics</a>
-                </li>
-                <li class="{% if request.resolver_match.url_name == 'notifications' %}active{% endif %}">
-                    <a href="{% url 'notifications' %}"><i class="fa-solid fa-bell"></i> Alerts</a>
-                </li>
-                <li class="{% if request.resolver_match.url_name == 'messages' %}active{% endif %}">
-                    <a href="{% url 'messages' %}"><i class="fa-solid fa-envelope"></i> Messages</a>
-                </li>
-                <li class="{% if request.resolver_match.url_name == 'search' %}active{% endif %}">
-                    <a href="{% url 'search' %}"><i class="fa-solid fa-search"></i> Search ERP</a>
                 </li>
                 <li class="{% if request.resolver_match.url_name == 'history' %}active{% endif %}">
                     <a href="{% url 'history' %}"><i class="fa-solid fa-clock-rotate-left"></i> Timeline</a>
@@ -141,11 +224,26 @@
                 <li class="{% if request.resolver_match.url_name == 'activity_logs' %}active{% endif %}">
                     <a href="{% url 'activity_logs' %}"><i class="fa-solid fa-list-check"></i> Audit Logs</a>
                 </li>
-                <li class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
-                    <a href="{% url 'profile' %}"><i class="fa-solid fa-user-circle"></i> My Profile</a>
+
+                <!-- Group 3: Communication -->
+                <li class="sidebar-section-title">Communications</li>
+                <li class="{% if request.resolver_match.url_name == 'notifications' %}active{% endif %}">
+                    <a href="{% url 'notifications' %}"><i class="fa-solid fa-bell"></i> Alerts</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'messages' %}active{% endif %}">
+                    <a href="{% url 'messages' %}"><i class="fa-solid fa-envelope"></i> Messages</a>
                 </li>
                 <li class="{% if request.resolver_match.url_name == 'feedback' %}active{% endif %}">
                     <a href="{% url 'feedback' %}"><i class="fa-solid fa-comment-dots"></i> Feedback</a>
+                </li>
+                
+                <!-- Group 4: Settings & Utilities -->
+                <li class="sidebar-section-title">System & Account</li>
+                <li class="{% if request.resolver_match.url_name == 'search' %}active{% endif %}">
+                    <a href="{% url 'search' %}"><i class="fa-solid fa-search"></i> Search ERP</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+                    <a href="{% url 'profile' %}"><i class="fa-solid fa-user-circle"></i> My Profile</a>
                 </li>
                 <li class="{% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
                     <a href="{% url 'settings' %}"><i class="fa-solid fa-sliders"></i> Settings</a>
@@ -153,8 +251,9 @@
                 <li class="{% if request.resolver_match.url_name == 'help_center' %}active{% endif %}">
                     <a href="{% url 'help_center' %}"><i class="fa-solid fa-question-circle"></i> Help Center</a>
                 </li>
-                <li>
-                    <a href="{% url 'logout' %}" class="text-danger"><i class="fa-solid fa-sign-out-alt text-danger"></i> Logout</a>
+                
+                <li class="sidebar-logout-item">
+                    <a href="{% url 'logout' %}" class="sidebar-logout-link"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
                 </li>
             </ul>
         </nav>
