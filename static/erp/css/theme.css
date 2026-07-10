@@ -6,9 +6,9 @@
     --teal-green: #0d9488;
     --teal-green-hover: #14b8a6;
     --accent-green: #10b981;
-    --light-gray: #f1f5f9;
+    --light-gray: #ffffff;
     --pure-white: #ffffff;
-    --text-muted: #e2e8f0; /* Bright ice-blue/cyan text instead of grey */
+    --text-muted: #ffffff;
     --sidebar-width: 260px;
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -337,40 +337,40 @@ small,
 .small,
 .text-white-50,
 .text-black-50 {
-    color: #cbd5e1 !important;
+    color: #ffffff !important;
 }
 
 /* Ensure placeholder texts are bright and readable */
 ::placeholder {
-    color: #a5f3fc !important;
+    color: #ffffff !important;
     opacity: 0.9 !important;
 }
 ::-webkit-input-placeholder {
-    color: #a5f3fc !important;
+    color: #ffffff !important;
     opacity: 0.9 !important;
 }
 :-ms-input-placeholder {
-    color: #a5f3fc !important;
+    color: #ffffff !important;
     opacity: 0.9 !important;
 }
 ::-ms-input-placeholder {
-    color: #a5f3fc !important;
+    color: #ffffff !important;
     opacity: 0.9 !important;
 }
 
 /* Improve visibilty of teal hovertext */
 .text-teal-hover {
-    color: #f1f5f9 !important;
+    color: #ffffff !important;
 }
 
 /* Improve table text visibility */
 .table-glass td,
 .table-glass tbody td,
 .table-glass tr td {
-    color: #f1f5f9 !important;
+    color: #ffffff !important;
 }
 
 /* Overriding Bootstrap form text/labels */
 .form-text {
-    color: #cbd5e1 !important;
+    color: #ffffff !important;
 }
