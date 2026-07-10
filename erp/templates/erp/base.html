@@ -16,6 +16,73 @@
     <!-- Custom Theme styles -->
     <link rel="stylesheet" href="{% static 'erp/css/theme.css' %}?v=2">
     {% block extra_css %}{% endblock %}
+    
+    <style>
+        /* Force White Text across all elements */
+        body, p, span, small, label, h1, h2, h3, h4, h5, h6, 
+        .text-muted, .text-secondary, .form-text, .form-glass-label,
+        .nav-link, .navbar-nav .nav-link, .text-white-50, .text-body-secondary {
+            color: #ffffff !important;
+            opacity: 1 !important;
+        }
+        
+        /* Placeholders */
+        ::placeholder, 
+        ::-webkit-input-placeholder, 
+        :-ms-input-placeholder, 
+        ::-ms-input-placeholder {
+            color: #ffffff !important;
+            opacity: 0.9 !important;
+        }
+
+        /* Table cells */
+        .table-glass td, .table-glass tbody td, .table-glass tr td {
+            color: #ffffff !important;
+        }
+
+        /* Glowing background spots */
+        body {
+            background-color: #0a192f !important;
+            background-image: radial-gradient(circle at 15% 15%, rgba(20, 184, 166, 0.18) 0%, transparent 45%),
+                              radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.15) 0%, transparent 45%),
+                              radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.08) 0%, transparent 60%) !important;
+            background-attachment: fixed !important;
+        }
+
+        /* Glassmorphism card */
+        .glass-card {
+            background: linear-gradient(135deg, rgba(16, 28, 48, 0.75) 0%, rgba(10, 25, 47, 0.9) 100%) !important;
+            backdrop-filter: blur(16px) !important;
+            -webkit-backdrop-filter: blur(16px) !important;
+            border: 1px solid rgba(20, 184, 166, 0.25) !important;
+            border-radius: 16px !important;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45) !important;
+        }
+
+        /* Buttons */
+        .btn-teal {
+            background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.2) !important;
+        }
+        .btn-teal:hover {
+            background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%) !important;
+            box-shadow: 0 6px 20px rgba(20, 184, 166, 0.45) !important;
+            transform: translateY(-2px) !important;
+        }
+        
+        .btn-accent {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%) !important;
+            color: #0a192f !important;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2) !important;
+        }
+        .btn-accent:hover {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%) !important;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
+            transform: translateY(-2px) !important;
+        }
+    </style>
 </head>
 <body>
 
