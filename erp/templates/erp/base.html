@@ -18,6 +18,19 @@
     {% block extra_css %}{% endblock %}
     
     <style>
+        /* Force White headings and text elements */
+        h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .text-gradient, .accent-text-gradient {
+            color: #ffffff !important;
+            background: none !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
+        /* Remove brand link underline */
+        .sidebar-brand, .sidebar-brand:hover, .sidebar-brand:focus {
+            text-decoration: none !important;
+            border-bottom: none !important;
+        }
+
         /* Force White/Legible Text for low contrast utility classes */
         .text-muted, .text-secondary, .form-text, .form-glass-label,
         .nav-link, .navbar-nav .nav-link, .text-white-50, .text-body-secondary {
@@ -25,7 +38,7 @@
             opacity: 1 !important;
         }
         
-        /* Force theme teal accent color on highlighted texts and headings */
+        /* Force theme teal accent color on highlighted texts */
         .text-teal {
             color: #14b8a6 !important;
         }
@@ -39,21 +52,27 @@
             opacity: 0.9 !important;
         }
 
-        /* Highly Decorated Tables */
+        /* Highly Decorated Tables (Transparent Backgrounds) */
         .table-responsive-glass {
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid rgba(20, 184, 166, 0.25) !important;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            background: transparent !important;
         }
-        .table-glass {
-            margin-bottom: 0;
+        .table-glass,
+        .table-glass th,
+        .table-glass td,
+        .table-glass tr,
+        .table-glass tbody,
+        .table-glass thead {
+            background-color: transparent !important;
+            --bs-table-bg: transparent !important;
+            --bs-table-accent-bg: transparent !important;
             color: #ffffff !important;
-            background: rgba(16, 28, 48, 0.3) !important;
         }
         .table-glass th {
             background: rgba(20, 184, 166, 0.12) !important;
-            color: #ffffff !important;
             font-weight: 700 !important;
             border-bottom: 2px solid rgba(20, 184, 166, 0.35) !important;
             text-transform: uppercase;
@@ -62,7 +81,6 @@
         }
         .table-glass td {
             border-bottom: 1px solid rgba(20, 184, 166, 0.15) !important;
-            color: #ffffff !important;
         }
         .table-glass tbody tr:hover {
             background: rgba(20, 184, 166, 0.06) !important;
