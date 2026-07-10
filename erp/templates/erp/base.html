@@ -35,9 +35,33 @@
             opacity: 0.9 !important;
         }
 
-        /* Table cells */
-        .table-glass td, .table-glass tbody td, .table-glass tr td {
+        /* Highly Decorated Tables */
+        .table-responsive-glass {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(20, 184, 166, 0.25) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        .table-glass {
+            margin-bottom: 0;
             color: #ffffff !important;
+            background: rgba(16, 28, 48, 0.3) !important;
+        }
+        .table-glass th {
+            background: rgba(20, 184, 166, 0.12) !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            border-bottom: 2px solid rgba(20, 184, 166, 0.35) !important;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+        .table-glass td {
+            border-bottom: 1px solid rgba(20, 184, 166, 0.15) !important;
+            color: #ffffff !important;
+        }
+        .table-glass tbody tr:hover {
+            background: rgba(20, 184, 166, 0.06) !important;
         }
 
         /* Glowing background spots */
@@ -57,6 +81,79 @@
             border: 1px solid rgba(20, 184, 166, 0.25) !important;
             border-radius: 16px !important;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45) !important;
+        }
+
+        /* Premium Form Controls */
+        .form-glass-control {
+            background: rgba(10, 25, 47, 0.6) !important;
+            border: 1px solid rgba(20, 184, 166, 0.25) !important;
+            color: #ffffff !important;
+            border-radius: 8px !important;
+            transition: all 0.3s ease-in-out !important;
+        }
+        .form-glass-control:focus {
+            background: rgba(16, 28, 48, 0.85) !important;
+            border-color: #10b981 !important;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.35) !important;
+        }
+        select.form-glass-control option {
+            background: #0a192f !important;
+            color: #ffffff !important;
+        }
+
+        /* Custom Input Groups for Search */
+        .input-group-text {
+            background: rgba(10, 25, 47, 0.6) !important;
+            border: 1px solid rgba(20, 184, 166, 0.25) !important;
+            border-right: none !important;
+            color: #ffffff !important;
+        }
+        .input-group .form-glass-control {
+            border-left: none !important;
+        }
+
+        /* Glowing Neon Badges */
+        .badge {
+            font-weight: 700 !important;
+            padding: 0.45rem 0.85rem !important;
+            border-radius: 6px !important;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.72rem !important;
+        }
+        .badge-teal {
+            background: rgba(13, 148, 136, 0.2) !important;
+            color: #14b8a6 !important;
+            border: 1px solid rgba(13, 148, 136, 0.4) !important;
+            box-shadow: 0 0 10px rgba(13, 148, 136, 0.15);
+        }
+        .badge-accent {
+            background: rgba(16, 185, 129, 0.2) !important;
+            color: #10b981 !important;
+            border: 1px solid rgba(16, 185, 129, 0.4) !important;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.15);
+        }
+        .badge-danger-glass {
+            background: rgba(239, 68, 68, 0.2) !important;
+            color: #ef4444 !important;
+            border: 1px solid rgba(239, 68, 68, 0.4) !important;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.15);
+        }
+
+        /* Glassmorphic Modals */
+        .modal-content {
+            background: linear-gradient(135deg, rgba(16, 28, 48, 0.95) 0%, rgba(10, 25, 47, 0.99) 100%) !important;
+            border: 1px solid rgba(20, 184, 166, 0.3) !important;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6) !important;
+            border-radius: 20px !important;
+            color: #ffffff !important;
+            backdrop-filter: blur(20px);
+        }
+        .modal-header {
+            border-bottom: 1px solid rgba(20, 184, 166, 0.2) !important;
+        }
+        .modal-footer {
+            border-top: 1px solid rgba(20, 184, 166, 0.2) !important;
         }
 
         /* Buttons */
