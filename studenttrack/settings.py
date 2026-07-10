@@ -87,6 +87,7 @@ WSGI_APPLICATION = 'studenttrack.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 import os
+import ssl
 
 DB_NAME = os.environ.get('DB_NAME', 'studenttrack_db')
 DB_USER = os.environ.get('DB_USER', 'root')
@@ -107,6 +108,12 @@ DATABASES = {
         }
     }
 }
+
+if DB_HOST != '127.0.0.1' and DB_HOST != 'localhost':
+    ssl_ctx = ssl.create_default_context()
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
+    DATABASES['default']['OPTIONS']['ssl'] = ssl_ctx
 
 
 # Password validation
