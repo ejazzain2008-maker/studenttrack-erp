@@ -33,9 +33,22 @@
 
         /* Force White/Legible Text for low contrast utility classes */
         .text-muted, .text-secondary, .form-text, .form-glass-label,
+        span.text-muted, div.text-muted, p.text-muted,
         .nav-link, .navbar-nav .nav-link, .text-white-50, .text-body-secondary {
             color: #ffffff !important;
             opacity: 1 !important;
+        }
+
+        /* Force user corner username link to be solid white */
+        .btn-glass, 
+        .btn-glass span, 
+        .btn-glass i,
+        a.btn-glass,
+        a.btn-glass:hover,
+        a.btn-glass:focus {
+            color: #ffffff !important;
+            opacity: 1 !important;
+            text-decoration: none !important;
         }
         
         /* Force theme teal accent color on highlighted texts */
