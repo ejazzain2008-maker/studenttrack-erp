@@ -374,3 +374,14 @@ small,
 .form-text {
     color: #ffffff !important;
 }
+
+/* Disable transparency on texts/links so they don't look grey on dark blue */
+.nav-link,
+.navbar-nav .nav-link,
+.opacity-75,
+.opacity-50,
+.text-white-50,
+.text-body-secondary {
+    opacity: 1 !important;
+    color: #ffffff !important;
+}
