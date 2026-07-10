@@ -87,6 +87,7 @@ WSGI_APPLICATION = 'studenttrack.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 import sys
+import os
 
 # Detect if we are in the static file compilation/build step
 IS_BUILD_STEP = 'collectstatic' in sys.argv
