@@ -86,19 +86,39 @@ WSGI_APPLICATION = 'studenttrack.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'studenttrack_db',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+import sys
+
+# Detect if we are in the static file compilation/build step
+IS_BUILD_STEP = 'collectstatic' in sys.argv
+
+if IS_BUILD_STEP:
+    # Use Django's built-in dummy database during static compilation to bypass database checks
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.dummy',
         }
     }
-}
+else:
+    # Real MySQL configuration at runtime
+    DB_NAME = os.environ.get('DB_NAME', 'studenttrack_db')
+    DB_USER = os.environ.get('DB_USER', 'root')
+    DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
+    DB_HOST = os.environ.get('DB_HOST', '127.0.0.1')
+    DB_PORT = os.environ.get('DB_PORT', '3306')
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': DB_HOST,
+            'PORT': DB_PORT,
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            }
+        }
+    }
 
 
 # Password validation
