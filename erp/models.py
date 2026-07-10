@@ -38,14 +38,52 @@ def create_user_profile(sender, instance, created, **kwargs):
             UserProfile.objects.create(user=instance, role='admin')
             instance.is_superuser = True
             instance.is_staff = True
+            post_save.disconnect(create_user_profile, sender=User)
             instance.save()
+            post_save.connect(create_user_profile, sender=User)
         else:
             UserProfile.objects.create(user=instance, role='student')
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     if hasattr(instance, 'profile'):
+        post_save.disconnect(save_user_profile, sender=User)
         instance.profile.save()
+        post_save.connect(save_user_profile, sender=User)
+
+@receiver(post_save, sender=User)
+def enforce_single_admin(sender, instance, **kwargs):
+    # Only allow exactly one admin user.
+    # The first created user is the Admin.
+    first_admin_profile = UserProfile.objects.filter(role='admin').order_by('id').first()
+    if first_admin_profile:
+        primary_admin = first_admin_profile.user
+    else:
+        primary_admin = User.objects.order_by('id').first()
+
+    if primary_admin and instance != primary_admin:
+        needs_user_save = False
+        needs_profile_save = False
+
+        if instance.is_superuser or instance.is_staff:
+            instance.is_superuser = False
+            instance.is_staff = False
+            needs_user_save = True
+
+        if hasattr(instance, 'profile') and instance.profile.role != 'student':
+            instance.profile.role = 'student'
+            needs_profile_save = True
+
+        if needs_user_save:
+            post_save.disconnect(create_user_profile, sender=User)
+            post_save.disconnect(enforce_single_admin, sender=User)
+            instance.save()
+            post_save.connect(create_user_profile, sender=User)
+            post_save.connect(enforce_single_admin, sender=User)
+
+        if needs_profile_save:
+            instance.profile.save()
+
 
 
 class StudentRecord(models.Model):

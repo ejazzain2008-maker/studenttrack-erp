@@ -20,7 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('django-admin/', admin.site.urls), # Rename standard django admin route to avoid clashes
+    path('studenttrack-backend-dashboard/', admin.site.urls),
     path('', include('erp.urls')),
 ]
 

@@ -330,9 +330,32 @@ body {
     }
 }
 
-/* Fix all muted text visibility */
-.text-muted{
-    color: #e2e8f0 !important;
+/* Fix all muted, secondary, and small text visibility */
+.text-muted,
+.text-secondary,
+small,
+.small,
+.text-white-50,
+.text-black-50 {
+    color: #cbd5e1 !important;
+}
+
+/* Ensure placeholder texts are bright and readable */
+::placeholder {
+    color: #a5f3fc !important;
+    opacity: 0.9 !important;
+}
+::-webkit-input-placeholder {
+    color: #a5f3fc !important;
+    opacity: 0.9 !important;
+}
+:-ms-input-placeholder {
+    color: #a5f3fc !important;
+    opacity: 0.9 !important;
+}
+::-ms-input-placeholder {
+    color: #a5f3fc !important;
+    opacity: 0.9 !important;
 }
 
 /* Improve visibilty of teal hovertext */
@@ -345,4 +368,9 @@ body {
 .table-glass tbody td,
 .table-glass tr td {
     color: #f1f5f9 !important;
+}
+
+/* Overriding Bootstrap form text/labels */
+.form-text {
+    color: #cbd5e1 !important;
 }
