@@ -89,31 +89,47 @@ WSGI_APPLICATION = 'studenttrack.wsgi.application'
 import os
 import ssl
 
+# Load local .env file if it exists
+try:
+    with open(BASE_DIR / '.env') as f:
+        for line in f:
+            if '=' in line and not line.strip().startswith('#'):
+                k, v = line.strip().split('=', 1)
+                os.environ[k.strip()] = v.strip().strip("'").strip('"')
+except FileNotFoundError:
+    pass
+
 DB_NAME = os.environ.get('DB_NAME', 'studenttrack_db')
 DB_USER = os.environ.get('DB_USER', 'root')
 DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
 DB_HOST = os.environ.get('DB_HOST', '127.0.0.1')
 DB_PORT = os.environ.get('DB_PORT', '3306')
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': DB_NAME,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASSWORD,
-        'HOST': DB_HOST,
-        'PORT': DB_PORT,
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+if os.environ.get('RENDER') == 'true' and DB_HOST in ('127.0.0.1', 'localhost'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.dummy',
         }
     }
-}
-
-if DB_HOST != '127.0.0.1' and DB_HOST != 'localhost':
+else:
     ssl_ctx = ssl.create_default_context()
     ssl_ctx.check_hostname = False
     ssl_ctx.verify_mode = ssl.CERT_NONE
-    DATABASES['default']['OPTIONS']['ssl'] = ssl_ctx
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': DB_HOST,
+            'PORT': DB_PORT,
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                'ssl': ssl_ctx,
+            }
+        }
+    }
 
 
 # Password validation

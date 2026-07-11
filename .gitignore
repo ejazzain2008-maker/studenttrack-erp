@@ -1,0 +1,9 @@
+.env
+db.sqlite3
+*.pyc
+__pycache__/
+.idea/
+.vscode/
+media/student_docs/
+report_screenshots/
+Zainab_Ejaz_Project_Report.html
